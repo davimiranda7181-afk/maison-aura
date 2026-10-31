@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Maison Aura · Perfumaria</title>
+  <meta name="description" content="Perfumaria multimarcas com atendimento e pedidos pelo WhatsApp. Explore fragrâncias por família olfativa, ocasião, volume e concentração.">
+  <meta name="theme-color" content="#0F0E0C">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Maison Aura">
+  <meta property="og:title" content="Maison Aura · Perfumaria">
+  <meta property="og:description" content="Sua essência. Sua assinatura. Perfumaria multimarcas com pedidos pelo WhatsApp.">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@300;400;500;600&display=swap">
+</head>
+<body>
+  <a class="skip" href="#app">Pular para o conteúdo</a>
+  <div class="topbar"><div class="wrap" id="topbar-text" style="display:flex;align-items:center;justify-content:center;gap:12px"><span>Atendimento e pedidos pelo WhatsApp</span><button type="button" class="intro-replay-trigger" data-replay-intro aria-label="Ver perfume 3D">✦ Rever Intro 3D</button></div></div>
+  <div class="demo-strip" id="demo-strip" hidden><div class="wrap">Modo demonstração: produtos, marcas e preços desta vitrine são fictícios.</div></div>
+
+  <!-- Abertura Cinemática 3D do Perfume -->
+  <div id="perfume-intro" class="perfume-intro" aria-label="Abertura Maison Aura">
+    <div class="intro-bg">
+      <div class="intro-radial-glow"></div>
+      <div class="intro-light-beams"></div>
+    </div>
+    <canvas id="intro-canvas" class="intro-canvas"></canvas>
+
+    <div class="intro-stage" id="intro-stage">
+      <div class="intro-topbar">
+        <button type="button" id="intro-sound-btn" class="intro-icon-btn" aria-label="Ativar ou desativar som">
+          <svg viewBox="0 0 24 24" id="sound-icon-off"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          <svg viewBox="0 0 24 24" id="sound-icon-on" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <span>Som</span>
+        </button>
+        <button type="button" id="intro-skip-btn" class="intro-skip-btn">
+          Pular introdução ✕
+        </button>
+      </div>
+
+      <div class="intro-bottle-viewport" id="intro-bottle-viewport">
+        <div class="intro-pedestal">
+          <div class="pedestal-ring ring-1"></div>
+          <div class="pedestal-ring ring-2"></div>
+          <div class="pedestal-light"></div>
+          <div class="bottle-shadow"></div>
+        </div>
+
+        <div class="perfume-3d-bottle" id="perfume-3d-bottle">
+          <!-- Tampa esculpida que abre, gira e levita -->
+          <div class="perfume-cap-assembly" id="perfume-cap-assembly" title="Clique para abrir ou fechar a tampa">
+            <div class="cap-crown">
+              <div class="cap-gem"></div>
+            </div>
+            <div class="cap-body">
+              <div class="cap-shimmer"></div>
+              <div class="cap-gold-band">
+                <span class="cap-gold-engraving">MAISON AURA</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Atomizador / Spray Dourado -->
+          <div class="perfume-atomizer" id="perfume-atomizer">
+            <div class="atomizer-collar"></div>
+            <div class="atomizer-stem"></div>
+            <div class="atomizer-head">
+              <div class="atomizer-orifice"></div>
+            </div>
+            <div class="spray-burst-flash" id="spray-burst-flash"></div>
+          </div>
+
+          <!-- Frasco de Cristal com Líquido Âmbar e Rótulo de Luxo -->
+          <div class="perfume-body-crystal">
+            <div class="glass-reflection-left"></div>
+            <div class="glass-reflection-right"></div>
+            <div class="glass-reflection-diagonal"></div>
+
+            <div class="perfume-liquid">
+              <div class="liquid-surface"></div>
+              <div class="liquid-glow"></div>
+            </div>
+
+            <div class="perfume-tube"></div>
+
+            <!-- Rótulo Frontal de Ouro -->
+            <div class="perfume-gold-label label-front">
+              <div class="label-border"></div>
+              <div class="label-monogram">MA</div>
+              <div class="label-title">MAISON AURA</div>
+              <div class="label-sub">HAUTE PARFUMERIE</div>
+              <div class="label-desc">Extrait de Parfum</div>
+              <div class="label-vol">100 ML · 3.4 FL. OZ.</div>
+            </div>
+
+            <!-- Brasão Traseiro em Ouro (visível ao girar 360°) -->
+            <div class="perfume-gold-label label-back">
+              <div class="label-border"></div>
+              <div class="label-monogram" style="font-size:36px;margin-bottom:6px">MA</div>
+              <div class="label-sub" style="letter-spacing:0.35em">PARFUMS DE LUXE</div>
+              <div class="label-desc">Édition Limitée</div>
+              <div class="label-vol">PARIS · SALVADOR</div>
+            </div>
+
+            <div class="crystal-base"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-reveal-content" id="intro-reveal-content">
+        <div class="intro-badge">HAUTE PARFUMERIE</div>
+        <h1 class="intro-title">MAISON AURA</h1>
+        <p class="intro-tagline">Sua Essência. Sua Assinatura Inesquecível.</p>
+        <div class="intro-actions">
+          <button type="button" id="intro-enter-btn" class="intro-btn-enter">
+            <span>Entrar na Boutique</span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button type="button" id="intro-spray-again-btn" class="intro-btn-spray">
+            <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <span>Borrifar Fragrância</span>
+          </button>
+        </div>
+        <p class="intro-hint">✦ Arraste com o mouse para girar em 360° · Mova o cursor para inclinar · Toque no perfume para borrifar</p>
+      </div>
+    </div>
+  </div>
+
+  <header class="site">
+    <div class="wrap">
+      <div class="hd">
+        <div class="hd-left">
+          <button class="icon-btn menu-btn" id="menu-open" type="button" aria-label="Abrir menu" aria-controls="mmenu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12"/></svg></button>
+          <form class="search" data-search role="search" autocomplete="off">
+            <label for="q" class="sr">Buscar perfumes</label>
+            <input id="q" name="q" type="search" maxlength="80" placeholder="Buscar fragrância, marca ou nota">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+            <div class="suggest" hidden></div>
+          </form>
+        </div>
+        <a href="/" class="logo" aria-label="Maison Aura, página inicial"><b>MAISON AURA</b><small>Parfums</small></a>
+        <div class="hd-right">
+          <a href="/favoritos" class="icon-btn" aria-label="Favoritos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20Z"/></svg><span class="count" id="fav-count" data-n="0">0</span></a>
+          <button class="icon-btn" type="button" data-open-cart aria-label="Abrir sacola" aria-controls="cart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span class="count" id="cart-count" data-n="0">0</span></button>
+        </div>
+      </div>
+      <div class="m-search">
+        <form class="search" data-search role="search" autocomplete="off">
+          <label for="q2" class="sr">Buscar perfumes</label>
+          <input id="q2" name="q" type="search" maxlength="80" placeholder="Buscar fragrância, marca ou nota">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+          <div class="suggest" hidden></div>
+        </form>
+      </div>
+    </div>
+    <nav class="main" aria-label="Principal"><div class="wrap"><ul id="nav-list"></ul></div></nav>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+
+  <footer class="site" id="footer"></footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer left" id="mmenu" aria-label="Menu" inert>
+    <div class="dr-head"><a href="/" class="logo logo-left"><b>MAISON AURA</b></a><button class="icon-btn" type="button" data-close aria-label="Fechar menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dr-body"><nav class="m-nav" id="m-nav" aria-label="Categorias"></nav>
+      <div class="m-links"><a href="/favoritos">Favoritos</a><a href="/contato">Contato</a><a href="/faq">Perguntas frequentes</a><a href="/sobre">Sobre a loja</a></div>
+    </div>
+  </aside>
+  <aside class="drawer right" id="cart" aria-label="Sacola" inert>
+    <div class="dr-head"><h2 class="dr-title">Sua sacola</h2><button class="icon-btn" type="button" data-close aria-label="Fechar sacola"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dr-body" id="cart-body"></div>
+    <div class="dr-foot" id="cart-foot"></div>
+  </aside>
+  <div id="wa-fab-slot"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">Ative o JavaScript para navegar pela loja ou fale conosco pelo WhatsApp.</p></noscript>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,806 @@
+/* MAISON AURA — Abertura Cinemática 3D de Luxo */
+
+.perfume-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(ellipse at 50% 40%, #171512 0%, #0c0b09 55%, #050504 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  perspective: 1400px;
+  font-family: var(--body, 'Jost', sans-serif);
+}
+
+.perfume-intro.closing {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Background Atmosphere */
+.intro-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.intro-radial-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(800px, 90vw);
+  height: min(800px, 90vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 176, 134, 0.22) 0%, rgba(200, 176, 134, 0.06) 45%, transparent 70%);
+  filter: blur(40px);
+  animation: introAuraPulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes introAuraPulse {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+.intro-light-beams {
+  position: absolute;
+  inset: 0;
+  background: 
+    conic-gradient(from 0deg at 50% 35%, 
+      transparent 0deg, 
+      rgba(218, 185, 126, 0.05) 25deg, 
+      transparent 55deg, 
+      rgba(218, 185, 126, 0.04) 95deg, 
+      transparent 140deg, 
+      rgba(218, 185, 126, 0.06) 200deg, 
+      transparent 260deg, 
+      rgba(218, 185, 126, 0.03) 310deg, 
+      transparent 360deg);
+  animation: introBeamsSpin 45s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes introBeamsSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Mist & Particle Canvas */
+.intro-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Main Container */
+.intro-stage {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 24px;
+  box-sizing: border-box;
+}
+
+/* Top bar: Sound toggle & Skip */
+.intro-topbar {
+  width: 100%;
+  max-width: 1300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 40;
+}
+
+.intro-icon-btn, .intro-skip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(200, 176, 134, 0.25);
+  color: #EADBC8;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.intro-icon-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.intro-icon-btn:hover, .intro-skip-btn:hover {
+  background: rgba(200, 176, 134, 0.18);
+  border-color: #C8B086;
+  color: #FFF;
+  box-shadow: 0 0 15px rgba(200, 176, 134, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Viewport for the 3D Bottle */
+.intro-bottle-viewport {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: min(480px, 55vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.intro-bottle-viewport:active,
+.intro-bottle-viewport.is-grabbing {
+  cursor: grabbing;
+}
+
+/* Floor Reflection & Pedestal */
+.intro-pedestal {
+  position: absolute;
+  bottom: 10px;
+  width: 320px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotateX(75deg);
+  pointer-events: none;
+}
+
+.pedestal-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(200, 176, 134, 0.35);
+  box-shadow: 0 0 30px rgba(200, 176, 134, 0.2);
+}
+
+.pedestal-ring.ring-1 {
+  width: 100%;
+  height: 100%;
+  animation: pedestalPulse 4s ease-in-out infinite alternate;
+}
+
+.pedestal-ring.ring-2 {
+  width: 70%;
+  height: 70%;
+  border-color: rgba(230, 200, 150, 0.5);
+  animation: pedestalPulse 4s ease-in-out infinite alternate-reverse;
+}
+
+.pedestal-light {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(230, 185, 110, 0.6) 0%, transparent 70%);
+  filter: blur(14px);
+}
+
+.bottle-shadow {
+  position: absolute;
+  width: 190px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 50%;
+  filter: blur(12px);
+  transform: translateY(10px);
+}
+
+@keyframes pedestalPulse {
+  0% { transform: scale(0.96); opacity: 0.5; }
+  100% { transform: scale(1.05); opacity: 0.9; }
+}
+
+/* ================= 3D BOTTLE RIG ================= */
+.perfume-3d-bottle {
+  position: relative;
+  width: 220px;
+  height: 380px;
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+  transform: rotateX(0deg) rotateY(0deg);
+}
+
+/* ================= TAMPA (CAP) ASSEMBLY ================= */
+.perfume-cap-assembly {
+  position: relative;
+  z-index: 15;
+  width: 96px;
+  height: 85px;
+  transform-style: preserve-3d;
+  transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+  cursor: pointer;
+}
+
+/* When the cap opens: lifts up, twists, tilts and levitates! */
+.perfume-cap-assembly.cap-opened {
+  transform: translateY(-85px) rotateZ(-12deg) rotateX(8deg) rotateY(15deg);
+}
+
+.cap-crown {
+  width: 80px;
+  height: 18px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #FFF2D1 0%, #D4AF37 40%, #8C6A18 70%, #F5DE98 100%);
+  border-radius: 6px 6px 2px 2px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  position: relative;
+}
+
+.cap-gem {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 6px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.4));
+  border-radius: 3px;
+}
+
+.cap-body {
+  position: relative;
+  width: 96px;
+  height: 67px;
+  background: linear-gradient(105deg, 
+    #5E471C 0%, 
+    #C49E48 20%, 
+    #FFE8A3 35%, 
+    #B58A32 50%, 
+    #694E1B 75%, 
+    #D1A949 90%, 
+    #4A3712 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 235, 175, 0.4);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.6),
+    inset 0 0 15px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.cap-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.6) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: capShimmerPass 4s infinite 2s ease-in-out;
+}
+
+@keyframes capShimmerPass {
+  0% { transform: translateX(-120%); }
+  40%, 100% { transform: translateX(120%); }
+}
+
+.cap-gold-band {
+  width: 100%;
+  height: 18px;
+  background: linear-gradient(90deg, #5B4319, #BF9940, #FFE599, #8C6A18);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cap-gold-engraving {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: #2F2108;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ================= ATOMIZER / SPRAY NOZZLE ================= */
+.perfume-atomizer {
+  position: relative;
+  z-index: 10;
+  width: 36px;
+  height: 38px;
+  margin-top: -16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.atomizer-collar {
+  width: 52px;
+  height: 10px;
+  background: linear-gradient(90deg, #6C521F, #D2A848, #FFF1BD, #947124);
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.atomizer-stem {
+  width: 24px;
+  height: 14px;
+  background: linear-gradient(90deg, #9C772C, #FDE69E, #B38933);
+}
+
+.atomizer-head {
+  position: relative;
+  width: 28px;
+  height: 18px;
+  background: linear-gradient(90deg, #74561E, #E0B857, #FFF5CD, #9A7526);
+  border-radius: 3px 3px 1px 1px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.atomizer-orifice {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  width: 4px;
+  height: 4px;
+  background: #171105;
+  border-radius: 50%;
+  border: 1px solid #FFE7A0;
+}
+
+/* Spray Burst Flash Effect */
+.spray-burst-flash {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 235, 175, 0.95) 0%, rgba(230, 185, 100, 0.6) 40%, transparent 80%);
+  filter: blur(4px);
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.2s ease-out, opacity 0.3s ease-out;
+}
+
+.spray-burst-flash.flash-active {
+  transform: translateX(-50%) scale(2.2);
+  opacity: 1;
+}
+
+/* ================= CRYSTAL FLACON BODY ================= */
+.perfume-body-crystal {
+  position: relative;
+  z-index: 12;
+  width: 220px;
+  height: 270px;
+  margin-top: -4px;
+  border-radius: 12px 12px 18px 18px;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.32) 0%, 
+    rgba(255, 255, 255, 0.08) 15%, 
+    rgba(255, 255, 255, 0.04) 85%, 
+    rgba(255, 255, 255, 0.25) 100%);
+  backdrop-filter: blur(3px);
+  border: 2px solid rgba(255, 240, 205, 0.45);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.8),
+    0 10px 25px rgba(200, 160, 90, 0.25),
+    inset 0 0 25px rgba(255, 230, 170, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Faceted Edge Reflections */
+.glass-reflection-left {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  bottom: 0;
+  width: 8px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.glass-reflection-right {
+  position: absolute;
+  top: 0;
+  right: 6px;
+  bottom: 0;
+  width: 6px;
+  background: linear-gradient(-90deg, rgba(255, 255, 255, 0.5) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.glass-reflection-diagonal {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent 40%, rgba(255, 255, 255, 0.18) 48%, rgba(255, 255, 255, 0.35) 50%, transparent 56%);
+  pointer-events: none;
+  animation: glassLightSweep 8s ease-in-out infinite alternate;
+}
+
+@keyframes glassLightSweep {
+  0% { transform: translate(-30%, -30%) rotate(0deg); }
+  100% { transform: translate(20%, 20%) rotate(5deg); }
+}
+
+/* Amber Liquid inside */
+.perfume-liquid {
+  position: absolute;
+  bottom: 22px;
+  left: 12px;
+  right: 12px;
+  height: 195px;
+  border-radius: 4px 4px 10px 10px;
+  background: linear-gradient(180deg, 
+    rgba(235, 170, 65, 0.88) 0%, 
+    rgba(205, 135, 30, 0.94) 50%, 
+    rgba(145, 80, 12, 0.98) 100%);
+  box-shadow: 
+    inset 0 4px 12px rgba(255, 225, 140, 0.6),
+    inset 0 -10px 25px rgba(80, 40, 5, 0.7),
+    0 0 35px rgba(220, 150, 40, 0.4);
+  overflow: hidden;
+}
+
+.liquid-surface {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: linear-gradient(180deg, rgba(255, 245, 205, 0.8) 0%, rgba(235, 170, 65, 0.2) 100%);
+  border-radius: 50%;
+}
+
+.liquid-glow {
+  position: absolute;
+  bottom: 10px;
+  left: 20%;
+  right: 20%;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255, 215, 120, 0.6) 0%, transparent 70%);
+  filter: blur(8px);
+}
+
+/* Glass Dip Tube */
+.perfume-tube {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 220px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.3));
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+  z-index: 5;
+}
+
+/* Heavy Crystal Bottom */
+.crystal-base {
+  position: relative;
+  z-index: 6;
+  width: 100%;
+  height: 26px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0.2) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Metallic Gold Label */
+.perfume-gold-label {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 154px;
+  height: 128px;
+  background: linear-gradient(145deg, #1C1A16, #0D0C0A);
+  border: 1px solid #D4AF37;
+  border-radius: 4px;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.8),
+    inset 0 0 10px rgba(0, 0, 0, 0.9),
+    0 0 15px rgba(212, 175, 55, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  z-index: 8;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.perfume-gold-label.label-front {
+  transform: translate(-50%, -50%) translateZ(14px);
+}
+
+.perfume-gold-label.label-back {
+  transform: translate(-50%, -50%) translateZ(-14px) rotateY(180deg);
+  background: linear-gradient(145deg, #171512, #090807);
+}
+
+.label-border {
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  pointer-events: none;
+}
+
+.label-monogram {
+  font-family: var(--display, 'Bodoni Moda', serif);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  background: linear-gradient(135deg, #FFF0C2, #D4AF37, #997825);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2px;
+}
+
+.label-title {
+  font-family: var(--display, 'Bodoni Moda', serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: #F5E5C9;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.label-sub {
+  font-size: 7.5px;
+  letter-spacing: 0.28em;
+  color: #C8B086;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.label-desc {
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  color: #FFF;
+  font-style: italic;
+  font-family: var(--display, 'Bodoni Moda', serif);
+}
+
+.label-vol {
+  font-size: 6.5px;
+  letter-spacing: 0.22em;
+  color: #A39682;
+  margin-top: 5px;
+}
+
+/* ================= REVEAL CONTENT (TITLES & BUTTONS) ================= */
+.intro-reveal-content {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 650px;
+  padding-bottom: 10px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.2s cubic-bezier(0.2, 0.7, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.intro-reveal-content.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-badge {
+  display: inline-block;
+  font-size: 10.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #D4AF37;
+  padding: 4px 14px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 20px;
+  background: rgba(212, 175, 55, 0.08);
+  margin-bottom: 12px;
+}
+
+.intro-title {
+  font-family: var(--display, 'Bodoni Moda', serif);
+  font-size: clamp(32px, 5.5vw, 54px);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  padding-left: 0.22em;
+  color: #FFFFFF;
+  margin: 0 0 6px 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.25);
+}
+
+.intro-tagline {
+  font-size: clamp(14px, 1.8vw, 17px);
+  color: #D6C8B4;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  margin: 0 0 24px 0;
+}
+
+.intro-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.intro-btn-enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #E6C875 0%, #C49E48 50%, #9E792C 100%);
+  color: #120F0A;
+  border: 0;
+  padding: 16px 36px;
+  border-radius: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(196, 158, 72, 0.35), 0 0 40px rgba(230, 200, 117, 0.2);
+  transition: all 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.intro-btn-enter svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  transition: transform 0.3s ease;
+}
+
+.intro-btn-enter:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 35px rgba(196, 158, 72, 0.5), 0 0 60px rgba(230, 200, 117, 0.35);
+  background: linear-gradient(135deg, #FFF0B8 0%, #D8B257 50%, #B08B3A 100%);
+}
+
+.intro-btn-enter:hover svg {
+  transform: translateX(4px);
+}
+
+.intro-btn-spray {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #F2E8D8;
+  padding: 15px 26px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.intro-btn-spray svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+}
+
+.intro-btn-spray:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: #D4AF37;
+  color: #FFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);
+}
+
+.intro-hint {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8C806F;
+  margin-top: 14px;
+}
+
+/* Replay button in store topbar/header */
+.intro-replay-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  margin-left: 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(200, 176, 134, 0.4);
+  background: rgba(200, 176, 134, 0.1);
+  color: var(--sand, #F2EDE4);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.intro-replay-trigger:hover {
+  background: rgba(200, 176, 134, 0.25);
+  border-color: var(--gold, #9A7C46);
+  color: #FFF;
+  transform: scale(1.05);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .intro-stage {
+    padding: 20px 16px;
+  }
+  .intro-bottle-viewport {
+    height: 48vh;
+  }
+  .perfume-3d-bottle {
+    width: 175px;
+    height: 300px;
+  }
+  .perfume-cap-assembly {
+    width: 78px;
+    height: 70px;
+  }
+  .perfume-cap-assembly.cap-opened {
+    transform: translateY(-68px) rotateZ(-12deg) rotateX(8deg);
+  }
+  .perfume-body-crystal {
+    width: 175px;
+    height: 220px;
+  }
+  .perfume-liquid {
+    height: 155px;
+  }
+  .perfume-gold-label {
+    width: 125px;
+    height: 105px;
+  }
+  .intro-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .intro-btn-enter, .intro-btn-spray {
+    width: 100%;
+    justify-content: center;
+  }
+}
